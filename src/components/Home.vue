@@ -25,9 +25,7 @@ export default {
   },
   methods: {
     onStart () {
-      console.log(this.showSignUp)
-      this.closeSignUp()
-      this.$router.push({path: '/farm'})
+      this.showSignUp = true
     },
     closeSignUp () {
       this.showSignUp = false

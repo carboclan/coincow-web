@@ -10,19 +10,7 @@ export default {
 }
 </script>
 
-<style>
-
-body {
-    background-color: #bbbbbb;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
 
 h1 {
   font-weight: bold;
@@ -30,17 +18,14 @@ h1 {
   color: white;
 }
 
-.farm-button {
-  background-color: #fc6471;
+.farm-button
+  background-color: $red;
   height: 100px;
   width: 600px;
   color: white;
   border: none;
   font-size: 60px;
-}
-
-.farm-button:hover {
-  background-color: #ec3333;
-}
+  &:hover
+    background-color: $darkred;
 
 </style>
