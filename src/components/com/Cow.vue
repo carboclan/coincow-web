@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     onClick () {
-      this.$emit('cowclick');
+      this.$emit('cowclick')
     }
   }
 }
