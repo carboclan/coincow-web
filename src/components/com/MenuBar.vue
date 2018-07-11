@@ -5,7 +5,7 @@
     <router-link to="/farmlist" class="farm-menu-item">All Farms</router-link>
     <router-link to="/farm" class="farm-menu-item">My Farm</router-link>
     <router-link to="/mymilk" class="farm-menu-item">My Milk</router-link>
-    <router-link to="/" class="farm-menu-item">Share</router-link>
+    <router-link to="/invite" class="farm-menu-item">Share</router-link>
   </div>
 </template>
 

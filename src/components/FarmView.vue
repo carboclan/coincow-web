@@ -10,6 +10,7 @@
       </div>
       <CowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:close="closeModal" />
       <BuyToolModal v-if="showModal === 'BUY_TOOL'" v-on:close="closeModal" />
+      <FarmMemberModal />
     </div>
   </div>
 </template>
@@ -18,6 +19,7 @@
 import MenuBar from '@/components/com/MenuBar'
 import CowDetailModal from '@/components/com/CowDetailModal'
 import BuyToolModal from '@/components/com/BuyToolModal'
+import FarmMemberModal from '@/components/com/FarmMemberModal'
 import Cow from '@/components/com/Cow'
 export default {
   name: 'FarmView',
@@ -25,6 +27,7 @@ export default {
     MenuBar,
     CowDetailModal,
     BuyToolModal,
+    FarmMemberModal,
     Cow
   },
   data () {

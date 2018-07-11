@@ -5,6 +5,7 @@ import FarmView from '@/components/FarmView'
 import MarketplaceView from '@/components/MarketplaceView'
 import FarmListView from '@/components/FarmListView'
 import MyMilkView from '@/components/MyMilkView'
+import InviteView from '@/components/InviteView'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/mymilk',
       name: 'MyMilkView',
       component: MyMilkView
+    },
+    {
+      path: '/invite',
+      name: 'InviteView',
+      component: InviteView
     }
   ]
 })
