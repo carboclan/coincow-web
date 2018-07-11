@@ -1,0 +1,3 @@
+[submodule "coincow-contracts"]
+	path = coincow-contracts
+	url = https://github.com/carboclan/coincow-contracts.git
