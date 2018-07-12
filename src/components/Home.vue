@@ -12,6 +12,8 @@
 
 <script>
 import SignUpModal from '@/components/com/SignUpModal.vue'
+import { web3, contracts } from '../lib/eth'
+
 export default {
   name: 'Home',
   components: {
@@ -24,7 +26,14 @@ export default {
     }
   },
   methods: {
-    onStart () {
+    async onStart () {
+      const username = web3.toUtf8(await contracts.userInfo.nameOf(web3.eth.defaultAccount))
+      if (username) {
+        alert('welcome back ' + username)
+        this.$router.push({path: '/farm'})
+        return
+      }
+
       this.showSignUp = true
     },
     closeSignUp () {
