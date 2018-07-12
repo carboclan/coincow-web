@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { contracts } from '../../lib/eth'
+
 export default {
   name: 'SignUpModal',
   data () {
@@ -22,7 +24,14 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    async onSubmit () {
+      if (!this.nickname || !await contracts.userInfo.canRegister(this.nickname)) {
+        alert('Username cannot be registered, try another one.')
+        return
+      }
+
+      await contracts.userInfo.register(this.nickname, '')
+
       this.$emit('close')
       this.$router.push({path: '/farm'})
     },

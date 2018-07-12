@@ -2,6 +2,17 @@
 
 > A Vue.js project
 
+## Prepare
+```base
+git clone --recursive https://github.com/carboclan/coincow-web.git
+cd coincow-contracts
+npm i
+truffle dev
+migrate --reset
+```
+
+In meta mask, connect to custom rpc http://localhost:9545, import a private key displayed in truffle console.
+
 ## Build Setup
 
 ``` bash
