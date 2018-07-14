@@ -5,84 +5,37 @@
       <div class="farm-card" v-for="farm in farmList" :key="farm.farmId">
         <div class="farm-card-title">{{farm.name}}</div>
         <div class="farm-detail">
-          <div>Owner: {{farm.owner}}</div>
+          <div>Owner: {{farm.ownerName}}</div>
           <div>Members: {{farm.members}}</div>
-          <div>Cows: {{farm.cows}}</div>
         </div>
-        <button class="farm-card-button" v-on:click="onJoinFarm(farm.farmId)">Join Farm</button>
+        <button class="farm-card-button" v-if="user.address != farm.owner" v-on:click="onJoinFarm(farm.farmId)">Join Farm</button>
+        <button class="farm-card-button">Your Farm</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { contracts } from '@/lib/eth'
 export default {
   name: 'FarmListModal',
+  props: {
+    farmList: Array
+  },
   data () {
     return {
-      farmList: [
-        {
-          farmId: 1,
-          name: '澳洲肥牛庄园',
-          owner: 'Smith',
-          members: 123,
-          cows: 182
-        },
-        {
-          farmId: 2,
-          name: '澳洲肥牛庄园',
-          owner: 'Smith',
-          members: 123,
-          cows: 182
-        },
-        {
-          farmId: 3,
-          name: '澳洲肥牛庄园',
-          owner: 'Smith',
-          members: 123,
-          cows: 182
-        },
-        {
-          farmId: 4,
-          name: '澳洲肥牛庄园',
-          owner: 'Smith',
-          members: 123,
-          cows: 182
-        },
-        {
-          farmId: 5,
-          name: '澳洲肥牛庄园',
-          owner: 'Smith',
-          members: 123,
-          cows: 182
-        },
-        {
-          farmId: 7,
-          name: '澳洲肥牛庄园',
-          owner: 'Smith',
-          members: 123,
-          cows: 182
-        },
-        {
-          farmId: 8,
-          name: '澳洲肥牛庄园',
-          owner: 'Smith',
-          members: 123,
-          cows: 182
-        },
-        {
-          farmId: 9,
-          name: '澳洲肥牛庄园',
-          owner: 'Smith',
-          members: 123,
-          cows: 182
-        }
-      ]
     }
   },
+  computed: mapState({
+    user: state => {
+      return state.user
+    }
+  }),
   methods: {
-    onJoinFarm (farmId) {
+    async onJoinFarm (farmId) {
       console.log(farmId)
+      await contracts.farm.join(farmId)
     }
   }
 }

@@ -19,15 +19,6 @@ export default {
   },
   data () {
     return {
-      cowData: {
-        cowType: 'bitcoin',
-        contractSize: '2 GH',
-        lastMilkTime: '2018-7-1',
-        startTime: '2018-6-1',
-        endTime: '2018-8-31',
-        totalMilked: 0.03,
-        totalStolen: 0.0004
-      }
     }
   },
   methods: {

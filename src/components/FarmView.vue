@@ -2,13 +2,16 @@
   <div class="farm-bg">
     <div class="farm-ft">
       <MenuBar />
-      <Cow class="cow1" v-on:cowclick="onCowClick" />
+      <Cow class="cow" v-for="(cow, index) in cowList" :cowData="cow" v-on:cowclick="onCowClick(cow)" :key="cow.cowId" :style="getCowStyle(index, cowList.length)"/>
       <div class="toolbox">
         <button class="tool-item">G</button>
         <button class="tool-item">M</button>
         <button class="tool-item" v-on:click="onBuyToolClick">+</button>
       </div>
-      <CowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:close="closeModal" />
+      <div class="user-box">
+        {{username}}({{balance}})
+      </div>
+      <CowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:close="closeModal" :cowData="currentCow" />
       <BuyToolModal v-if="showModal === 'BUY_TOOL'" v-on:close="closeModal" />
       <FarmMemberModal />
     </div>
@@ -16,11 +19,15 @@
 </template>
 
 <script>
+import { web3, contracts } from '@/lib/eth'
+
 import MenuBar from '@/components/com/MenuBar'
 import CowDetailModal from '@/components/com/CowDetailModal'
 import BuyToolModal from '@/components/com/BuyToolModal'
 import FarmMemberModal from '@/components/com/FarmMemberModal'
 import Cow from '@/components/com/Cow'
+import { mapState } from 'vuex'
+
 export default {
   name: 'FarmView',
   components: {
@@ -30,15 +37,29 @@ export default {
     FarmMemberModal,
     Cow
   },
+  computed: mapState({
+    cowList: state => {
+      return state.cowList.filter(cow => cow.owner === state.user.address)
+    }
+  }),
   data () {
     return {
-      msg: 'Farm View',
+      username: '',
+      balance: 0,
+      currentCow: undefined,
       showModal: 'NONE'
     }
   },
+  async created () {
+    const username = web3.toUtf8(await contracts.userInfo.nameOf(web3.eth.defaultAccount))
+    this.$data.username = username
+    console.log(contracts)
+    const balance = await contracts.coinCowCore.balanceOf(web3.eth.defaultAccount)
+    this.$data.balance = balance
+  },
   methods: {
-    onCowClick () {
-      console.log('click')
+    onCowClick (cow) {
+      this.currentCow = cow
       this.showModal = 'COW_DETAIL'
     },
     onBuyToolClick () {
@@ -46,6 +67,13 @@ export default {
     },
     closeModal () {
       this.showModal = 'NONE'
+    },
+    getCowStyle (index, length) {
+      const width = window.innerWidth - 300
+      const left = index * width / length + 30
+      return ({
+        left: `${left}px`
+      })
     }
   }
 }
@@ -91,19 +119,9 @@ export default {
   color: white;
   line-height: 60px;
 }
-.cow1 {
+.cow {
   position: fixed;
   left: 50px;
   bottom: 50px;
-}
-
-.cow2 {
-  position: fixed;
-  right: 70px;
-  bottom: 40px;
-}
-
-a {
-  color: #42b983;
 }
 </style>

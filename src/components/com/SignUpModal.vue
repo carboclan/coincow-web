@@ -29,9 +29,7 @@ export default {
         alert('Username cannot be registered, try another one.')
         return
       }
-
       await contracts.userInfo.register(this.nickname, '')
-
       this.$emit('close')
       this.$router.push({path: '/farm'})
     },

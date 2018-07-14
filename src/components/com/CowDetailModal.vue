@@ -6,15 +6,16 @@
       <div class="farm-modal-img"><img :src="require('@/assets/cow_' + cowData.cowType + '.png')" /></div>
       <ul class="farm-cow-detail">
         <li>Cow Type: {{cowData.cowType}}</li>
-        <li>Contract Size: {{cowData.contractSize}}</li>
-        <li>Last Milk Time: {{cowData.lastMilkTime}}</li>
-        <li>Start Time: {{cowData.startTime}}</li>
-        <li>End Time: {{cowData.endTime}}</li>
+        <li>Contract Size: {{cowData.contractSize / 1000000000000}} TH</li>
+        <li>Last Milk Time: {{formatDate(cowData.lastMilkTime)}}</li>
+        <li>Start Time: {{formatDate(cowData.startTime)}}</li>
+        <li>End Time: {{formatDate(cowData.endTime)}}</li>
         <li>Total Milked: {{cowData.totalMilked}}</li>
         <li>Total Stolen: {{cowData.totalStolen}}</li>
+        <li> Current Milk: {{cowData.milk / 100000000000000000}} Ether</li>
       </ul>
       <div class="farm-modal-footer">
-        <button class="farm-button" v-on:click="onSqueeze">Squeeze!</button>
+        <button class="farm-button" v-on:click="onSqueeze(cowData.cowId)">Squeeze!</button>
         <button class="farm-button" v-on:click="onSell">Sell</button>
       </div>
     </div>
@@ -22,34 +23,35 @@
 </template>
 
 <script>
+import { contracts, web3 } from '@/lib/eth'
 export default {
   name: 'CowDetailModal',
   components: {
   },
+  props: {
+    cowData: Object
+  },
   data () {
     return {
-      cowData: {
-        cowType: 'bitcoin',
-        contractSize: '2 GH',
-        lastMilkTime: '2018-7-1',
-        startTime: '2018-6-1',
-        endTime: '2018-8-31',
-        totalMilked: 0.03,
-        totalStolen: 0.0004
-      }
     }
   },
   methods: {
-    onSqueeze () {
+    async onSqueeze (cowId) {
+      await this.cowData.contract.milk(cowId)
       console.log('squeeze')
       this.$emit('close')
     },
-    onSell () {
+    async onSell () {
+      await contracts.coinCowCore.createAuction(this.cowData.cowId, web3.toWei(1, 'ether'))
       console.log('sell')
       this.$emit('close')
     },
     onClose () {
       this.$emit('close')
+    },
+    formatDate (sec) {
+      const date = new Date(sec * 1000)
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     }
   }
 }
