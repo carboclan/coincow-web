@@ -1,14 +1,13 @@
-<!-- SignUp Modal File -->
+<!-- SellCow Modal File -->
 <template>
   <div class="farm-modal">
     <div class="farm-modal-body">
       <button class="farm-modal-close" v-on:click="onClose"><img src="~@/assets/icon_close.png"/></button>
-      <div class="farm-modal-title">Enter a nickname:</div>
+      <div class="farm-modal-title">Enter a Price:</div>
       <div class="farm-inputgroup">
-        <span class="farm-inputgroup-addon"><img src="~@/assets/person_icon.png"/></span>
-        <input class="farm-input" v-model="nickname" placehoder="Your Nick Name" />
+        <input class="farm-input" v-model="price" placehoder="Your Price" />
       </div>
-      <button class="farm-button" v-on:click="onSubmit">Done</button>
+      <button class="farm-button" v-on:click="onSubmit">Sell</button>
     </div>
   </div>
 </template>
@@ -17,26 +16,24 @@
 import { web3, contracts } from '../../lib/eth'
 
 export default {
-  name: 'SignUpModal',
+  name: 'SellCowModal',
+  props: {
+    cowData: Object
+  },
   data () {
     return {
-      nickname: ''
+      price: 1
     }
   },
   methods: {
     async onSubmit () {
-      if (!this.nickname || !await contracts.userInfo.canRegister(this.nickname)) {
-        alert('Username cannot be registered, try another one.')
+      if (!(this.price > 0)) {
+        alert('price too low')
         return
       }
-      this.$store.commit('setUser',
-        {
-          address: web3.eth.defaultAccount,
-          username: this.nickname
-        })
-      await contracts.userInfo.register(this.nickname, '')
+      await contracts.coinCowCore.createAuction(this.cowData.cowId, web3.toWei(this.price, 'ether'))
+      console.log('sell')
       this.$emit('close')
-      this.$router.push({path: '/farm'})
     },
     onClose () {
       this.$emit('close')

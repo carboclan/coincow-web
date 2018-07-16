@@ -28,7 +28,6 @@ export default {
   },
   computed: mapState({
     cowList: state => {
-      console.log(state.cowList)
       return state.cowList.filter(cow => cow.onAuction)
     }
   }),

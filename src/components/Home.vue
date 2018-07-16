@@ -30,11 +30,6 @@ export default {
       const username = web3.toUtf8(await contracts.userInfo.nameOf(web3.eth.defaultAccount))
       if (username) {
         alert('welcome back ' + username)
-        this.$store.commit('setUser',
-          {
-            address: web3.eth.defaultAccount,
-            username
-          })
         this.$router.push({path: '/farm'})
         return
       }

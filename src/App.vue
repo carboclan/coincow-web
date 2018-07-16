@@ -11,6 +11,7 @@ export default {
   async created () {
     this.getCows()
     this.getFarms()
+    this.getUserInfo()
   },
   methods: {
     async getCows () {
@@ -68,6 +69,39 @@ export default {
         farmList.push(farm)
       }
       this.$store.commit('setFarmList', farmList)
+    },
+    async getUserInfo () {
+      const userAddress = (await web3.eth.getAccounts())[0]
+      if (!userAddress) {
+        this.$router.push('/')
+        return
+      }
+      const userName = await contracts.userInfo.nameOf(userAddress)
+      if (!userName) {
+        return
+      }
+      const balance = await contracts.coinCowCore.balanceOf(userAddress)
+      this.$data.balance = balance
+      const balances = []
+      await Promise.all(Object.keys(coinMap).map(async coinAddress => {
+        console.log(coinAddress)
+        const coinBalance = await coinMap[coinAddress].contract.balanceOf(userAddress)
+        if (coinBalance) {
+          balances.push({
+            type: coinMap[coinAddress].type,
+            address: coinAddress,
+            balance: coinBalance.toNumber()
+          })
+        }
+      }))
+      const user = {
+        address: userAddress,
+        username: web3.toUtf8(userName),
+        balances,
+        balance: balance.toNumber()
+      }
+      console.log(user)
+      this.$store.commit('setUser', user)
     }
   }
 }

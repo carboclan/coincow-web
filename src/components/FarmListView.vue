@@ -3,6 +3,7 @@
     <div class="farm-ft">
       <MenuBar />
       <FarmListModal :farmList="farmList" />
+      <CreateFarmModal v-if="showCreateFarm" v-on:close="onCloseCreateFarm" />
       <button class="farm-create-button" v-on:click="onCreateFarm()">Create Farm</button>
     </div>
   </div>
@@ -11,17 +12,18 @@
 <script>
 import MenuBar from '@/components/com/MenuBar'
 import FarmListModal from '@/components/com/FarmListModal'
-import { web3, contracts } from '@/lib/eth'
+import CreateFarmModal from '@/components/com/CreateFarmModal'
 import { mapState } from 'vuex'
 export default {
   name: 'FarmListView',
   components: {
     MenuBar,
-    FarmListModal
+    FarmListModal,
+    CreateFarmModal
   },
   data () {
     return {
-      showSignUp: false
+      showCreateFarm: false
     }
   },
   computed: mapState({
@@ -30,10 +32,11 @@ export default {
     }
   }),
   methods: {
-    async onCreateFarm () {
-      console.log(contracts.farm)
-      const creationFee = web3.toWei(0.2, 'ether')
-      contracts.farm.create(web3.fromAscii('test farm'), {value: creationFee})
+    onCloseCreateFarm () {
+      this.showCreateFarm = false
+    },
+    onCreateFarm () {
+      this.showCreateFarm = true
     }
   }
 }
@@ -52,7 +55,7 @@ export default {
   left: 0;
   right: 0;
   background-image: url('~@/assets/bg.jpg');
-  background-position: -3300px 0;
+  background-position: -3600px 0;
 }
 .farm-ft {
   position: fixed;
@@ -61,7 +64,7 @@ export default {
   left: 0;
   right: 0;
   background-image: url('~@/assets/ft.png');
-  background-position: -3300px 0;
+  background-position: -3600px 0;
 }
 
 .farm-create-button

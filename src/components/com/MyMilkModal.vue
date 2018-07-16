@@ -1,55 +1,38 @@
 <!-- MyMilk Modal File -->
 <template>
   <div class="farm-modal">
-    <div class="farm-modal-body">
+    <div v-if="user" class="farm-modal-body">
       <div class="milk-row">
         <div class="milk-row-header">Coin Type</div>
         <div class="milk-row-header">Balance</div>
-        <div class="milk-row-header">Total Producted</div>
         <div class="milk-row-header">Actions</div>
       </div>
-      <div class="milk-row" v-for="milk in milkList" :key="milk.coinType">
-        <div class="milk-row-cell">{{milk.coinType}}</div>
+      <div class="milk-row" v-for="milk in user.balances" :key="milk.type">
+        <div class="milk-row-cell">{{milk.type}}</div>
         <div class="milk-row-cell">{{milk.balance}}</div>
-        <div class="milk-row-cell">{{milk.total}}</div>
-        <button class="milk-row-button" v-on:click="onWithdraw(milk.coinType)">Withdraw</button>
+        <button class="milk-row-button" v-on:click="onWithdraw(milk.address)">Withdraw</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { coinMap } from '@/lib/eth'
 export default {
   name: 'MyMilkModal',
   data () {
     return {
-      milkList: [
-        {
-          coinType: 'BTC',
-          balance: 0.45,
-          total: 4.50
-        },
-        {
-          coinType: 'ETH',
-          balance: 0.56,
-          total: 10.20
-        },
-        {
-          coinType: 'EOS',
-          balance: 45.30,
-          total: 100.34
-        },
-        {
-          coinType: 'COW',
-          balance: 3402.20,
-          total: 10234.50
-        }
-      ]
     }
   },
+  computed: mapState({
+    user: state => {
+      return state.user
+    }
+  }),
   methods: {
-    onWithdraw (coinType) {
-      console.log('withdraw ', coinType)
+    async onWithdraw (address) {
+      await coinMap[address].contract.withdraw()
     }
   }
 }
@@ -74,11 +57,11 @@ export default {
     color: white;
     .milk-row-header
       background-color: $jade;
-      width: 25%;
+      width: 33%;
       margin: 3px;
     .milk-row-cell
       background-color: $grey;
-      width: 25%;
+      width: 33%;
       margin: 3px;
       color: black;
     .milk-row-button
@@ -86,7 +69,7 @@ export default {
       color: white;
       font-size: 32px;
       width: 25%;
-      margin: 3px;
+      margin: 3px auto;
       border: none;
       &:hover
         background-color: $darkred;

@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { contracts, web3 } from '@/lib/eth'
 export default {
   name: 'CowDetailModal',
   components: {
@@ -42,9 +41,7 @@ export default {
       this.$emit('close')
     },
     async onSell () {
-      await contracts.coinCowCore.createAuction(this.cowData.cowId, web3.toWei(1, 'ether'))
-      console.log('sell')
-      this.$emit('close')
+      this.$emit('sell')
     },
     onClose () {
       this.$emit('close')

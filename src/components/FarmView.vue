@@ -6,24 +6,24 @@
       <div class="toolbox">
         <button class="tool-item">G</button>
         <button class="tool-item">M</button>
-        <button class="tool-item" v-on:click="onBuyToolClick">+</button>
+        <button class="tool-item">+</button>
       </div>
       <div class="user-box">
-        {{username}}({{balance}})
+        {{user.username}}'s Farm ({{user.balance}} cows)
       </div>
-      <CowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:close="closeModal" :cowData="currentCow" />
+      <CowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:close="closeModal" v-on:sell="onSellCowClick" :cowData="currentCow" />
       <BuyToolModal v-if="showModal === 'BUY_TOOL'" v-on:close="closeModal" />
+      <SellCowModal v-if="showModal === 'SELL_COW'" v-on:close="closeModal" :cowData="currentCow"/>
       <FarmMemberModal />
     </div>
   </div>
 </template>
 
 <script>
-import { web3, contracts } from '@/lib/eth'
-
 import MenuBar from '@/components/com/MenuBar'
 import CowDetailModal from '@/components/com/CowDetailModal'
 import BuyToolModal from '@/components/com/BuyToolModal'
+import SellCowModal from '@/components/com/SellCowModal'
 import FarmMemberModal from '@/components/com/FarmMemberModal'
 import Cow from '@/components/com/Cow'
 import { mapState } from 'vuex'
@@ -35,27 +35,25 @@ export default {
     CowDetailModal,
     BuyToolModal,
     FarmMemberModal,
+    SellCowModal,
     Cow
   },
   computed: mapState({
     cowList: state => {
+      if (!state.user) {
+        window.location = '/'
+      }
       return state.cowList.filter(cow => cow.owner === state.user.address)
-    }
+    },
+    user: state => state.user
   }),
   data () {
     return {
-      username: '',
-      balance: 0,
       currentCow: undefined,
       showModal: 'NONE'
     }
   },
   async created () {
-    const username = web3.toUtf8(await contracts.userInfo.nameOf(web3.eth.defaultAccount))
-    this.$data.username = username
-    console.log(contracts)
-    const balance = await contracts.coinCowCore.balanceOf(web3.eth.defaultAccount)
-    this.$data.balance = balance
   },
   methods: {
     onCowClick (cow) {
@@ -64,6 +62,9 @@ export default {
     },
     onBuyToolClick () {
       this.showModal = 'BUY_TOOL'
+    },
+    onSellCowClick () {
+      this.showModal = 'SELL_COW'
     },
     closeModal () {
       this.showModal = 'NONE'
@@ -92,7 +93,7 @@ export default {
   left: 0;
   right: 0;
   background-image: url('~@/assets/bg.jpg');
-  background-position: -4000px 0;
+  background-position: -3300px 0;
 }
 .farm-ft {
   position: fixed;
@@ -101,7 +102,7 @@ export default {
   left: 0;
   right: 0;
   background-image: url('~@/assets/ft.png');
-  background-position: -4000px 0;
+  background-position: -3300px 0;
 }
 .toolbox {
   position: fixed;
@@ -123,5 +124,12 @@ export default {
   position: fixed;
   left: 50px;
   bottom: 50px;
+}
+.user-box {
+  position: fixed;
+  left: 30px;
+  top: 100px;
+  color: white;
+  font-size: 20px;
 }
 </style>
