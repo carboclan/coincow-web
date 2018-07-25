@@ -83,15 +83,6 @@ export default {
   background-image: url('~@/assets/bg.jpg');
   background-position: -3000px 0;
 }
-.farm-ft {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-image: url('~@/assets/ft.png');
-  background-position: -3000px 0;
-}
 .toolbox {
   position: fixed;
   left: 20px;
