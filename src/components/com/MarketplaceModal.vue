@@ -8,8 +8,8 @@
         <div class="cow-card-img"><img :src="require('@/assets/cow_' + cow.cowType + '.png')" /></div>
         <div class="cow-detail-box">
           <div>Type: {{cow.cowType}}</div>
-          <div>Price: {{cow.price}}</div>
-          <div>Contract Size: {{cow.contractSize}}</div>
+          <div>Price: {{cow.price}} Ether</div>
+          <div>Contract Size: {{cow.contractSize/1000000000000}}TH</div>
         </div>
         <button class="cow-card-button" v-on:click="onBuyCow(cow.cowId, cow.price)">Buy</button>
       </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { contracts } from '@/lib/eth'
+import { contracts, web3 } from '@/lib/eth'
 import { mapState } from 'vuex'
 export default {
   name: 'MarketplaceModal',
@@ -33,7 +33,7 @@ export default {
   }),
   methods: {
     async onBuyCow (cowId, price) {
-      await contracts.auctionHouse.bid(cowId, { value: price })
+      await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
       console.log(cowId)
     },
     async onCreateEthCow () {

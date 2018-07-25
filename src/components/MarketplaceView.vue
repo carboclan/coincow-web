@@ -8,10 +8,14 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import MenuBar from '@/components/com/MenuBar'
 import MarketplaceModal from '@/components/com/MarketplaceModal'
 export default {
   name: 'MarketplaceView',
+  created () {
+    this.getCows()
+  },
   components: {
     MenuBar,
     MarketplaceModal
@@ -22,6 +26,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'getCows'
+    ])
   }
 }
 </script>

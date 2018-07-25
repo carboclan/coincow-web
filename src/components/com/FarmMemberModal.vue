@@ -1,49 +1,37 @@
 <!-- FarmMember Modal File -->
 <template>
   <div class="member-list-frame">
-    <button class="farm-menu-item" v-on:click="toggleList">Members({{memberList.length}})</button>
+    <button class="farm-menu-item" v-on:click="toggleList">{{farmInfo.name}}({{farmInfo.members.length}})</button>
     <div class="member-list-body" v-if="showList">
-      <div class="farm-member" v-for="member in memberList" :key="member.name">
-        {{member.name}}({{member.cows}})<router-link :to="'/member/' + member.name">Enter</router-link>
+      <div class="farm-member" v-for="member in farmInfo.members" :key="member.user">
+        {{member.name}} <router-link :to="'/userfarm/' + member.user" class="enter-button">Enter</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'InviteModal',
   data () {
     return {
-      memberList: [
-        {
-          name: 'Alan',
-          cows: 10
-        },
-        {
-          name: 'G',
-          cows: 100
-        },
-        {
-          name: 'ttl',
-          cows: 50
-        },
-        {
-          name: 'B7',
-          cows: 5
-        },
-        {
-          name: 'C',
-          cows: 40
-        },
-        {
-          name: 'xxx',
-          cows: 1
-        }
-      ],
       showList: true
     }
   },
+  computed: mapState({
+    farmInfo: state => {
+      return ({
+        name: state.farmInfo.name,
+        members: Object.keys(state.farmInfo.members).map(member => {
+          return ({
+            name: state.farmInfo.members[member],
+            user: member
+          })
+        })
+      })
+    }
+  }),
   methods: {
     toggleList () {
       this.showList = !this.showList
@@ -79,7 +67,14 @@ export default {
       &:hover
         background-color: $darkred;
 
-      .farm-member
-        padding: 15px;
+    .farm-member
+      padding: 15px;
+      color: white;
+      font-size: 18px;
+      .enter-button
+        color: white;
+        border-radius: 3px;
+        border: solid 1px white;
+        text-decoration: none;
 
 </style>

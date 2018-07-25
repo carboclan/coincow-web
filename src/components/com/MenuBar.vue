@@ -10,10 +10,25 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'MenuBar',
   data () {
     return {
+    }
+  },
+  methods: {
+    ...mapActions([
+      'getCows',
+      'getFarms',
+      'getUserInfo',
+      'getFarmInfo'
+    ]),
+    onRefresh () {
+      this.getCows()
+      this.getFarms()
+      this.getUserInfo()
+      this.getFarmInfo()
     }
   }
 }
