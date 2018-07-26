@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 const state = {
   cowList: [], // cowlist
+  loadingCowList: false,
   farmList: [], // farmlist
   farmInfo: {
     members: {}

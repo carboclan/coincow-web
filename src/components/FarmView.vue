@@ -26,7 +26,7 @@ import BuyToolModal from '@/components/com/BuyToolModal'
 import SellCowModal from '@/components/com/SellCowModal'
 import FarmMemberModal from '@/components/com/FarmMemberModal'
 import Cow from '@/components/com/Cow'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'FarmView',
@@ -41,9 +41,10 @@ export default {
   computed: mapState({
     cowList: state => {
       if (!state.user) {
-        window.location = '/'
+        alert('user not registered!')
       }
-      return state.cowList.filter(cow => cow.owner === state.user.address)
+      const _cowList = state.cowList.filter(cow => cow.owner === state.user.address)
+      return _cowList
     },
     user: state => state.user
   }),
@@ -54,8 +55,14 @@ export default {
     }
   },
   async created () {
+    this.getCows()
+    this.getFarmInfo()
   },
   methods: {
+    ...mapActions([
+      'getCows',
+      'getFarmInfo'
+    ]),
     onCowClick (cow) {
       this.currentCow = cow
       this.showModal = 'COW_DETAIL'

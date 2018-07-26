@@ -19,7 +19,7 @@
 
 <script>
 import { contracts, web3 } from '@/lib/eth'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'MarketplaceModal',
   data () {
@@ -32,8 +32,12 @@ export default {
     }
   }),
   methods: {
+    ...mapActions([
+      'getCows'
+    ]),
     async onBuyCow (cowId, price) {
       await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
+      this.getCows()
       console.log(cowId)
     },
     async onCreateEthCow () {

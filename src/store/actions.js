@@ -2,6 +2,11 @@ import { contracts, coinMap, web3 } from '@/lib/eth'
 
 export default {
 	async getCows ({commit, state}) {
+    if (state.loadingCowList) {
+      return
+    }
+    console.log('start getCow')
+    commit('startGetCowList')
 		const total = (await contracts.coinCowCore.totalSupply()).toNumber()
 		const cowList = []
 		for (let i = 1; i < total + 1; i++) {
@@ -38,6 +43,7 @@ export default {
 			}
 			cowList.push(cow)
 		}
+    console.log('end getCow')
 		commit('setCowList', cowList)
 	},
 	async getFarms ({commit, state}) {

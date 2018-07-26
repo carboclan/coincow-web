@@ -27,7 +27,9 @@ export default {
   },
   methods: {
     async onStart () {
+      console.log('start')
       const username = web3.toUtf8(await contracts.userInfo.nameOf(web3.eth.defaultAccount))
+      console.log(username)
       if (username) {
         alert('welcome back ' + username)
         this.$router.push({path: '/farm'})

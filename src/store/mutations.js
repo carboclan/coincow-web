@@ -2,6 +2,7 @@ export default {
   setCowList (state, cowList) {
     // 设置牛
     state.cowList = cowList
+    state.loadingCowList = false
   },
   setFarmList (state, farmList) {
     // 设置农场
@@ -17,6 +18,8 @@ export default {
   },
   updateFarmMember (state, payload) {
     state.farmInfo.members[payload.user] = payload.userName
-    console.log(payload)
+  },
+  startGetCowList (state) {
+    state.loadingCowList = true
   }
 }
