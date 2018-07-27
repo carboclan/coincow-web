@@ -25,8 +25,8 @@ export default {
   },
   methods: {
     async onSubmit () {
-      if (!this.nickname || !await contracts.userInfo.canRegister(this.nickname)) {
-        alert('Username cannot be registered, try another one.')
+      if (!this.nickname) {
+        alert('Username cannot be empty')
         return
       }
       this.$store.commit('setUser',
