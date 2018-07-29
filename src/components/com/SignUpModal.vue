@@ -36,8 +36,8 @@ export default {
         })
       await contracts.userInfo.register(this.nickname, '')
       this.$emit('close')
-      alert('Please join a farm or create a new farm first.')
-      this.$router.push({path: '/farmlist'})
+      alert('Please buy a cow and join a farm or create a new farm first.')
+      this.$router.push({path: '/marketplace'})
     },
     onClose () {
       this.$emit('close')

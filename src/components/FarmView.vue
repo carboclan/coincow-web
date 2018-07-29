@@ -13,7 +13,7 @@
       </div>
       <CowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:close="closeModal" v-on:sell="onSellCowClick" :cowData="currentCow" />
       <BuyToolModal v-if="showModal === 'BUY_TOOL'" v-on:close="closeModal" />
-      <SellCowModal v-if="showModal === 'SELL_COW'" v-on:close="closeModal" :cowData="currentCow"/>
+      <SellCowModal v-if="showModal === 'SELL_COW'" v-on:close="closeModal" v-on:sold="onCowSold" :cowData="currentCow"/>
       <FarmMemberModal />
     </div>
   </div>
@@ -72,6 +72,9 @@ export default {
     },
     onSellCowClick () {
       this.showModal = 'SELL_COW'
+    },
+    onCowSold () {
+      this.showModal = 'NONE'
     },
     closeModal () {
       this.showModal = 'NONE'

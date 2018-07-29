@@ -2,8 +2,6 @@
 <template>
   <div class="farm-modal">
     <div class="farm-modal-body">
-      <button class="cow-bitcoin-button" v-on:click="onCreateBtcCow()">Bitcoin</button>
-      <button class="cow-ether-button" v-on:click="onCreateEthCow()">Ether</button>
       <div class="cow-card" v-for="cow in cowList" :key="cow.cowId">
         <div class="cow-card-img"><img :src="require('@/assets/cow_' + cow.cowType + '.png')" /></div>
         <div class="cow-detail-box">

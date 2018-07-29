@@ -8,8 +8,12 @@ export default {
     console.log('start getCow')
     commit('startGetCowList')
 		const total = (await contracts.coinCowCore.totalSupply()).toNumber()
-		const cowList = []
-		for (let i = 1; i < total + 1; i++) {
+    const cowIndex = []
+    for (let i = 1; i < total + 1; i++) {
+      cowIndex.push(i)
+    }
+    const cowPromises = cowIndex.map(async i => {
+      console.log('get cow ' + i)
 			const cowId = await contracts.coinCowCore.getCow(i)
 			const cowCoin = coinMap[cowId[0]]
 			const cowArray = await cowCoin.contract.getCowInfo(i)
@@ -32,6 +36,7 @@ export default {
 				totalMilked: cowArray[5].toNumber(),
 				totalStolen: cowArray[6].toNumber()
 			}
+      console.log('get auction ' + i)
 			const onAuction = await contracts.auctionHouse.isOnAuction(i)
 			if (onAuction) {
 				cow.onAuction = true
@@ -41,8 +46,10 @@ export default {
 			} else {
 				cow.onAuction = false
 			}
-			cowList.push(cow)
-		}
+      console.log('cow ' + i + ' loaded')
+			return cow
+		})
+    const cowList = await Promise.all(cowPromises)
     console.log('end getCow')
 		commit('setCowList', cowList)
 	},

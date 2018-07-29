@@ -33,7 +33,7 @@ export default {
       }
       await contracts.coinCowCore.createAuction(this.cowData.cowId, web3.toWei(this.price, 'ether'))
       console.log('sell')
-      this.$emit('close')
+      this.$emit('sold')
     },
     onClose () {
       this.$emit('close')
