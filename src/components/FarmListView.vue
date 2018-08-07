@@ -2,9 +2,9 @@
   <div class="farm-bg">
     <div class="farm-ft">
       <MenuBar />
-      <FarmListModal :farmList="farmList" />
+      <FarmListModal :farmList="farmList" :farmInfo="farmInfo" />
       <CreateFarmModal v-if="showCreateFarm" v-on:close="onCloseCreateFarm" />
-      <button class="farm-create-button" v-on:click="onCreateFarm()">Create Farm</button>
+      <button class="farm-create-button" v-if="farmInfo.owner !== user.address" v-on:click="onCreateFarm()">Create Farm</button>
     </div>
   </div>
 </template>
@@ -29,7 +29,9 @@ export default {
   computed: mapState({
     farmList: state => {
       return state.farmList
-    }
+    },
+    farmInfo: state => state.farmInfo,
+    user: state => state.user
   }),
   methods: {
     onCloseCreateFarm () {

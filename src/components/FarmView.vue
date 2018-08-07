@@ -9,7 +9,7 @@
         <button class="tool-item">+</button>
       </div>
       <div class="user-box">
-        {{user.username}}'s Farm ({{user.balance}} cows)
+        {{farmInfo.name}}'s Farm ( {{user.username}} has {{user.balance}} cows)
       </div>
       <CowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:close="closeModal" v-on:sell="onSellCowClick" :cowData="currentCow" />
       <BuyToolModal v-if="showModal === 'BUY_TOOL'" v-on:close="closeModal" />
@@ -46,6 +46,9 @@ export default {
       const _cowList = state.cowList.filter(cow => cow.owner === state.user.address)
       return _cowList
     },
+    farmInfo: state => ({
+        name: state.farmInfo.name
+    }),
     user: state => state.user
   }),
   data () {

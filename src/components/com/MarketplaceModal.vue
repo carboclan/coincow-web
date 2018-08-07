@@ -11,6 +11,8 @@
         </div>
         <button class="cow-card-button" v-on:click="onBuyCow(cow.cowId, cow.price)">Buy</button>
       </div>
+      <button class="cow-bitcoin-button" v-if="isCOO" v-on:click="onCreateBtcCow">+BTC</button>
+      <button class="cow-ether-button" v-if="isCOO" v-on:click="onCreateEthCow">+ETH</button>
     </div>
   </div>
 </template>
@@ -27,7 +29,8 @@ export default {
   computed: mapState({
     cowList: state => {
       return state.cowList.filter(cow => cow.onAuction)
-    }
+    },
+    isCOO: state => state.user.isCOO
   }),
   methods: {
     ...mapActions([

@@ -47,11 +47,12 @@ export default {
 				cow.onAuction = false
 			}
       console.log('cow ' + i + ' loaded')
+      commit('pushCow', cow)
 			return cow
 		})
-    const cowList = await Promise.all(cowPromises)
+    await Promise.all(cowPromises)
     console.log('end getCow')
-		commit('setCowList', cowList)
+		commit('endGetCowList')
 	},
 	async getFarms ({commit, state}) {
 		const total = (await contracts.farm.total()).toNumber()
@@ -75,8 +76,8 @@ export default {
     const myFarmId = await contracts.farm.userToFarmId(userAddress)
     const farmInfo = await contracts.farm.getInfo(myFarmId)
     const farmName = web3.toUtf8(farmInfo[1])
-    commit('setFarmInfo', { id: myFarmId, name: farmName })
     const farmOwner = farmInfo[0]
+    commit('setFarmInfo', { id: myFarmId, name: farmName, owner: farmOwner })
     const ownerName = await contracts.userInfo.nameOf(farmOwner)
     commit('updateFarmMember', { user: farmOwner, userName: web3.toUtf8(ownerName) })
     const myEvent = contracts.farm.Joined({farmId: myFarmId}, {fromBlock: 0, toBlock: 'latest'})
@@ -114,8 +115,10 @@ export default {
 				})
 			}
 		}))
+    const coo = await contracts.coinCowCore.cooAddress()
 		const user = {
 			address: userAddress,
+      isCOO: userAddress === coo,
 			username: web3.toUtf8(userName),
 			balances,
 			balance: balance.toNumber()
