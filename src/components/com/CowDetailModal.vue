@@ -38,7 +38,7 @@ export default {
     async onSqueeze (cowId) {
       await this.cowData.contract.milk(cowId)
       console.log('squeeze')
-      this.$emit('close')
+      this.$emit('squeeze')
     },
     async onSell () {
       this.$emit('sell')

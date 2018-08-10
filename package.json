@@ -1,8 +1,8 @@
 {
   "name": "coincow-web",
   "version": "1.0.0",
-  "description": "Coin Cow Web",
-  "author": "b7@carboclan",
+  "description": "Coin Cow Farm",
+  "author": "b7@barboclan",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
