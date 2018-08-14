@@ -7,7 +7,7 @@
         <div class="cow-detail-box">
           <div>Type: {{cow.cowType}}</div>
           <div>Price: {{cow.price}} Ether</div>
-          <div>Contract Size: {{cow.contractSize/1000000000000}}TH</div>
+          <div>Contract Size: {{cow.contractSize}}{{cow.contractUnit}}</div>
         </div>
         <button class="cow-card-button" v-on:click="onBuyCow(cow.cowId, cow.price)">Buy</button>
       </div>

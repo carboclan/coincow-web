@@ -29,6 +29,7 @@ export default {
 				milkLevel: milk / stealThreshold > 1 ? 1 : milk / stealThreshold,
 				cowType: coinMap[cowId[0]].type,
 				contractSize: cowArray[0].toNumber(),
+				contractUnit: await cowCoin.contract.contractUnit(),
 				lastStolen: cowArray[1].toNumber(),
 				lastMilkTime: cowArray[2].toNumber(),
 				startTime: cowArray[3].toNumber(),
