@@ -20,13 +20,17 @@ export default {
 			const owner = await contracts.coinCowCore.ownerOf(i)
 			const milk = await cowCoin.contract.milkAvailable(i)
 			const stealThreshold = await cowCoin.contract.stealThreshold()
+      const milkThreshold = await cowCoin.contract.milkThreshold()
+      const milkLevel = (milk / stealThreshold) > 1 ? 1 : milk / stealThreshold
+      console.log(milkLevel)
 			const cow = {
 				cowId: i,
 				owner,
 				milk,
+        milkThreshold,
 				stealThreshold,
 				contract: cowCoin.contract,
-				milkLevel: milk / stealThreshold > 1 ? 1 : milk / stealThreshold,
+				milkLevel,
 				cowType: coinMap[cowId[0]].type,
 				contractSize: cowArray[0].toNumber(),
 				contractUnit: await cowCoin.contract.contractUnit(),
@@ -44,6 +48,7 @@ export default {
 				const auctionArray = await contracts.auctionHouse.getAuction(i)
 				cow.price = web3.fromWei(auctionArray[1].toNumber())
 				cow.seller = auctionArray[0]
+        cow.sellerName = web3.toUtf8(await contracts.userInfo.nameOf(auctionArray[0]))
 			} else {
 				cow.onAuction = false
 			}
@@ -60,7 +65,9 @@ export default {
 		const farmList = []
 		for (let i = 1; i < total + 1; i++) {
 			const farmArray = await contracts.farm.getInfo(i)
+      console.log(farmArray[0])
 			const ownerName = await contracts.userInfo.nameOf(farmArray[0])
+      console.log(ownerName)
 			const farm = {
 				farmId: i,
 				owner: farmArray[0],
@@ -74,7 +81,10 @@ export default {
 	},
   async getFarmInfo ({commit, state}) {
     const userAddress = (await web3.eth.getAccounts())[0]
-    const myFarmId = await contracts.farm.userToFarmId(userAddress)
+    console.log(userAddress)
+    let myFarmId = await contracts.farm.userToFarmId(userAddress)
+    myFarmId = myFarmId.toNumber()
+    console.log(myFarmId)
     const farmInfo = await contracts.farm.getInfo(myFarmId)
     const farmName = web3.toUtf8(farmInfo[1])
     const farmOwner = farmInfo[0]

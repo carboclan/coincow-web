@@ -17,7 +17,7 @@ export default {
   name: 'InviteModal',
   data () {
     return {
-      message: 'https://coincow.com/invite/4345333 Please join my farm!'
+      message: 'http://coincow.farm Please join my farm!'
     }
   },
   methods: {

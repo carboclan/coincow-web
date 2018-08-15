@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { web3, contracts } from '../../lib/eth'
+import { web3, contracts } from '@/lib/eth'
 
 export default {
   name: 'SignUpModal',
@@ -29,12 +29,13 @@ export default {
         alert('Username cannot be empty')
         return
       }
+      const userAddress = (await web3.eth.getAccounts())[0]
       this.$store.commit('setUser',
         {
-          address: web3.eth.defaultAccount,
+          address: userAddress,
           username: this.nickname
         })
-      await contracts.userInfo.register(this.nickname, '')
+      await contracts.userInfo.register.call(this.nickname, '')
       this.$emit('close')
       alert('Please buy a cow and join a farm or create a new farm first.')
       this.$router.push({path: '/marketplace'})

@@ -8,11 +8,10 @@
           <div>Type: {{cow.cowType}}</div>
           <div>Price: {{cow.price}} Ether</div>
           <div>Contract Size: {{cow.contractSize}}{{cow.contractUnit}}</div>
+          <div>Seller: {{cow.sellerName}}</div>
         </div>
         <button class="cow-card-button" v-on:click="onBuyCow(cow.cowId, cow.price)">Buy</button>
       </div>
-      <button class="cow-bitcoin-button" v-if="isCOO" v-on:click="onCreateBtcCow">+BTC</button>
-      <button class="cow-ether-button" v-if="isCOO" v-on:click="onCreateEthCow">+ETH</button>
     </div>
   </div>
 </template>
@@ -40,14 +39,6 @@ export default {
       await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
       this.getCows()
       console.log(cowId)
-    },
-    async onCreateEthCow () {
-      const cowId = await contracts.EtherCow.createCow()
-      console.log(cowId)
-    },
-    async onCreateBtcCow () {
-      const cowId = await contracts.BitcoinCow.createCow()
-      console.log(cowId)
     }
   }
 }
@@ -66,7 +57,7 @@ export default {
   .cow-card
     background-color: white;
     width: 350px;
-    height: 400px;
+    height: 430px;
     padding: 5px;
     margin: 5px;
 
@@ -76,36 +67,11 @@ export default {
     height: 250px;
 
   .cow-detail-box
-    height: 65px;
+    height: 95px;
     padding: 10px;
     font-size: 20px;
 
   .cow-card-button
-    bottom: -30px;
-    color: white;
-    background: $red;
-    height: 60px;
-    line-height: 60px;
-    font-size: 32px;
-    padding: 0 30px;
-    border: none;
-
-  .cow-bitcoin-button
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    color: white;
-    background: $red;
-    height: 60px;
-    line-height: 60px;
-    font-size: 32px;
-    padding: 0 30px;
-    border: none;
-
-  .cow-ether-button
-    position: absolute;
-    top: 100px;
-    right: 30px;
     color: white;
     background: $red;
     height: 60px;

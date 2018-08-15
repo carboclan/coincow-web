@@ -8,8 +8,9 @@
           <div>Owner: {{farm.ownerName}}</div>
           <div>Members: {{farm.members}}</div>
         </div>
-        <button class="farm-card-button" v-if="user.address != farm.owner" v-on:click="onJoinFarm(farm.farmId)">Join Farm</button>
-        <button class="farm-card-button" v-else>Your Farm</button>
+        <button class="farm-card-button" v-if="user.address === farm.owner" v-on:click="onMyFarm">Your Farm</button>
+        <button class="farm-card-button" v-else-if="farmInfo.id === farm.farmId" v-on:click="onMyFarm">Enter Farm</button>
+        <button class="farm-card-button" v-else-if="user.address != farmInfo.owner" v-on:click="onJoinFarm(farm.farmId)">Join Farm</button>
       </div>
     </div>
   </div>
@@ -28,11 +29,13 @@ export default {
     }
   },
   computed: mapState({
-    user: state => {
-      return state.user
-    }
+    user: state => state.user,
+    farmInfo: state => state.farmInfo,
   }),
   methods: {
+    onMyFarm () {
+      this.$router.push({path: '/farm'})
+    },
     async onJoinFarm (farmId) {
       console.log(farmId)
       await contracts.farm.join(farmId)

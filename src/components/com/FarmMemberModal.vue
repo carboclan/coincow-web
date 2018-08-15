@@ -62,7 +62,7 @@ export default {
       padding: 0 30px;
       background-color: $red;
       color: white;
-      font-size: 32px;
+      font-size: 18px;
       border: none;
       &:hover
         background-color: $darkred;

@@ -1,13 +1,13 @@
 <!-- MyMilk Modal File -->
 <template>
   <div class="farm-modal">
-    <div v-if="user" class="farm-modal-body">
+    <div class="farm-modal-body">
       <div class="milk-row">
         <div class="milk-row-header">Coin Type</div>
         <div class="milk-row-header">Balance</div>
         <div class="milk-row-header">Actions</div>
       </div>
-      <div class="milk-row" v-for="milk in user.balances" :key="milk.type">
+      <div class="milk-row" v-for="milk in balances" :key="milk.type">
         <div class="milk-row-cell">{{milk.type}}</div>
         <div class="milk-row-cell">{{milk.balance}}</div>
         <button class="milk-row-button" v-on:click="onWithdraw(milk.address)">Withdraw</button>
@@ -26,8 +26,21 @@ export default {
     }
   },
   computed: mapState({
-    user: state => {
-      return state.user
+    balances: state => {
+      return state.user.balances.map(milk => {
+        let _balance = 0
+        if (milk.type === 'bitcoin') {
+          _balance = milk.balance / 1000000000
+        }
+        if (milk.type === 'ether') {
+          _balance = milk.balance / 10000000000000000000
+        }
+        return {
+          type: milk.type,
+          address: milk.address,
+          balance: _balance
+        }
+      })
     }
   }),
   methods: {

@@ -4,15 +4,25 @@
     <div class="farm-modal-body">
       <button class="farm-modal-close" v-on:click="onClose"><img src="~@/assets/icon_close.png"/></button>
       <div class="farm-modal-img"><img :src="require('@/assets/cow_' + cowData.cowType + '.png')" /></div>
-      <ul class="farm-cow-detail">
+      <ul class="farm-cow-detail" v-if="cowData.cowType==='ether'" >
         <li>Cow Type: {{cowData.cowType}}</li>
-        <li>Contract Size: {{cowData.contractSize / 1000000000000}} TH</li>
+        <li>Contract Size: {{cow.contractSize}} {{cow.contractUnit}}</li>
         <li>Last Milk Time: {{formatDate(cowData.lastMilkTime)}}</li>
         <li>Start Time: {{formatDate(cowData.startTime)}}</li>
         <li>End Time: {{formatDate(cowData.endTime)}}</li>
-        <li>Total Milked: {{cowData.totalMilked}}</li>
-        <li>Total Stolen: {{cowData.totalStolen}}</li>
+        <li>Total Milked: {{cowData.totalMilked / 100000000000000000}} Ether</li>
+        <li>Total Stolen: {{cowData.totalStolen / 100000000000000000}} Ether</li>
         <li> Current Milk: {{cowData.milk / 100000000000000000}} Ether</li>
+      </ul>
+      <ul class="farm-cow-detail" v-if="cowData.cowType==='bitcoin'" >
+        <li>Cow Type: {{cowData.cowType}}</li>
+        <li>Contract Size: {{cow.contractSize}} {{cow.contractUnit}}</li>
+        <li>Last Milk Time: {{formatDate(cowData.lastMilkTime)}}</li>
+        <li>Start Time: {{formatDate(cowData.startTime)}}</li>
+        <li>End Time: {{formatDate(cowData.endTime)}}</li>
+        <li>Total Milked: {{cowData.totalMilked / 100000000}} BTC</li>
+        <li>Total Stolen: {{cowData.totalStolen / 100000000}} BTC</li>
+        <li> Current Milk: {{cowData.milk / 100000000}} BTC</li>
       </ul>
       <div class="farm-modal-footer">
         <button class="farm-button" v-on:click="onSqueeze(cowData.cowId)">Squeeze!</button>
@@ -36,8 +46,11 @@ export default {
   },
   methods: {
     async onSqueeze (cowId) {
+      if (this.cowData.milk / this.cowData.milkThreshold < 1) {
+        alert('Milk is not full enough for squeeze')
+        return
+      }
       await this.cowData.contract.milk(cowId)
-      console.log('squeeze')
       this.$emit('squeeze')
     },
     async onSell () {
