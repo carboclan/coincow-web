@@ -25,6 +25,7 @@ export default {
       console.log(milkLevel)
 			const cow = {
 				cowId: i,
+        contractAddress: cowId[0],
 				owner,
 				milk,
         milkThreshold,
@@ -33,7 +34,6 @@ export default {
 				milkLevel,
 				cowType: coinMap[cowId[0]].type,
 				contractSize: cowArray[0].toNumber(),
-				contractUnit: await cowCoin.contract.contractUnit(),
 				lastStolen: cowArray[1].toNumber(),
 				lastMilkTime: cowArray[2].toNumber(),
 				startTime: cowArray[3].toNumber(),

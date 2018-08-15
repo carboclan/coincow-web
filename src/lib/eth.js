@@ -20,10 +20,14 @@ export const contracts = {
 export const coinMap = {
   [addresses.ethSwapCow]: {
     type: 'ether',
-    contract: contracts.EtherCow
+    contract: contracts.EtherCow,
+    contractUnit: 'MH/s',
+    profitUnit: 'ETH'
   },
   [addresses.btcSwapCow]: {
     type: 'bitcoin',
-    contract: contracts.BitcoinCow
+    contract: contracts.BitcoinCow,
+    contractUnit: 'GH/s',
+    profitUnit: 'BTC'
   }
 }

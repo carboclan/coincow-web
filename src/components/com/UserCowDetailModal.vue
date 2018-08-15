@@ -4,25 +4,15 @@
     <div class="farm-modal-body">
       <button class="farm-modal-close" v-on:click="onClose"><img src="~@/assets/icon_close.png"/></button>
       <div class="farm-modal-img"><img :src="require('@/assets/cow_' + cowData.cowType + '.png')" /></div>
-      <ul class="farm-cow-detail" v-if="cowData.cowType==='ether'" >
+      <ul class="farm-cow-detail">
         <li>Cow Type: {{cowData.cowType}}</li>
-        <li>Contract Size: {{cowData.contractSize}} TH</li>
+        <li>Contract Size: {{cowData.contractSize | hashrate(cowData.contractAddress)}}</li>
         <li>Last Milk Time: {{formatDate(cowData.lastMilkTime)}}</li>
         <li>Start Time: {{formatDate(cowData.startTime)}}</li>
         <li>End Time: {{formatDate(cowData.endTime)}}</li>
-        <li>Total Milked: {{cowData.totalMilked / 100000000000000000}} Ether</li>
-        <li>Total Stolen: {{cowData.totalStolen / 100000000000000000}} Ether</li>
-        <li> Current Milk: {{cowData.milk / 100000000000000000}} Ether</li>
-      </ul>
-      <ul class="farm-cow-detail" v-if="cowData.cowType==='bitcoin'" >
-        <li>Cow Type: {{cowData.cowType}}</li>
-        <li>Contract Size: {{cowData.contractSize}} TH</li>
-        <li>Last Milk Time: {{formatDate(cowData.lastMilkTime)}}</li>
-        <li>Start Time: {{formatDate(cowData.startTime)}}</li>
-        <li>End Time: {{formatDate(cowData.endTime)}}</li>
-        <li>Total Milked: {{cowData.totalMilked / 100000000}} BTC</li>
-        <li>Total Stolen: {{cowData.totalStolen / 100000000}} BTC</li>
-        <li> Current Milk: {{cowData.milk / 100000000}} BTC</li>
+        <li>Total Milked: {{cowData.totalMilked | milk(cowData.contractAddress)}}</li>
+        <li>Total Stolen: {{cowData.totalStolen | milk(cowData.contractAddress)}}</li>
+        <li> Current Milk: {{cowData.milk | milk(cowData.contractAddress)}}</li>
       </ul>
       <div class="farm-modal-footer">
         <button class="farm-button" v-on:click="onSteal(cowData.cowId)">Steal</button>

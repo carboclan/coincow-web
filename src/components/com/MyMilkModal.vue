@@ -9,7 +9,7 @@
       </div>
       <div class="milk-row" v-for="milk in balances" :key="milk.type">
         <div class="milk-row-cell">{{milk.type}}</div>
-        <div class="milk-row-cell">{{milk.balance}}</div>
+        <div class="milk-row-cell">{{milk.balance | milk(milk.address)}}</div>
         <button class="milk-row-button" v-on:click="onWithdraw(milk.address)">Withdraw</button>
       </div>
     </div>
@@ -26,22 +26,7 @@ export default {
     }
   },
   computed: mapState({
-    balances: state => {
-      return state.user.balances.map(milk => {
-        let _balance = 0
-        if (milk.type === 'bitcoin') {
-          _balance = milk.balance / 1000000000
-        }
-        if (milk.type === 'ether') {
-          _balance = milk.balance / 10000000000000000000
-        }
-        return {
-          type: milk.type,
-          address: milk.address,
-          balance: _balance
-        }
-      })
-    }
+    balances: state => state.user.balances
   }),
   methods: {
     async onWithdraw (address) {
