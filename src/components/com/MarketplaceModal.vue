@@ -36,7 +36,8 @@ export default {
       'getCows'
     ]),
     async onBuyCow (cowId, price) {
-      await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
+      const tx = await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
+      await web3.eth.getTransactionReceipt(tx)
       this.getCows()
       console.log(cowId)
     }

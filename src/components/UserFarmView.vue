@@ -8,7 +8,7 @@
         {{user.username}}'s Farm
       </div>
       <FarmMemberModal />
-      <UserCowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:close="closeModal" :cowData="currentCow" />
+      <UserCowDetailModal v-if="showModal === 'COW_DETAIL'" v-on:steal="onSteal" v-on:close="closeModal" :cowData="currentCow" />
     </div>
   </div>
 </template>
@@ -18,8 +18,7 @@ import MenuBar from '@/components/com/MenuBar'
 import FarmMemberModal from '@/components/com/FarmMemberModal'
 import UserCowDetailModal from '@/components/com/UserCowDetailModal'
 import Cow from '@/components/com/Cow'
-import { mapState } from 'vuex'
-
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'UserFarmView',
   components: {
@@ -50,11 +49,18 @@ export default {
   async created () {
   },
   methods: {
+    ...mapActions([
+      'getCows'
+    ]),
     onCowClick (cow) {
       this.currentCow = cow
       this.showModal = 'COW_DETAIL'
     },
     closeModal () {
+      this.showModal = 'NONE'
+    },
+    onSteal () {
+      this.getCows()
       this.showModal = 'NONE'
     },
     getCowStyle (index, length) {

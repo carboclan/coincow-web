@@ -28,7 +28,8 @@ export default {
   methods: {
     async onSubmit () {
       const creationFee = await contracts.farm.creationFee()
-      contracts.farm.create(web3.fromUtf8(this.name), {value: creationFee})
+      const tx = contracts.farm.create(web3.fromUtf8(this.name), {value: creationFee})
+      await web3.eth.getTransactionReceipt(tx)
       console.log('create farm')
       this.$emit('close')
     },

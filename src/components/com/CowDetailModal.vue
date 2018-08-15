@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { web3 } from '@/lib/eth'
 export default {
   name: 'CowDetailModal',
   components: {
@@ -40,7 +41,8 @@ export default {
         alert('Milk is not full enough for squeeze')
         return
       }
-      await this.cowData.contract.milk(cowId)
+      const tx = await this.cowData.contract.milk(cowId)
+      await web3.eth.getTransactionReceipt(tx)
       this.$emit('squeeze')
     },
     async onSell () {
