@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import SignUpModal from '@/components/com/SignUpModal.vue'
 import { web3, contracts } from '../lib/eth'
 
@@ -19,6 +20,9 @@ export default {
   components: {
     SignUpModal
   },
+  computed: mapState({
+    haveFarm: state => state.farmInfo.id > 0
+  }),
   data () {
     return {
       msg: 'Welcome to Coin Cow!',
@@ -32,10 +36,13 @@ export default {
       console.log(username)
       if (username) {
         alert('welcome back ' + username)
-        this.$router.push({path: '/farm'})
+        if (this.haveFarm) {
+          this.$router.push({path: '/farm'})
+        } else {
+          this.$router.push({path: '/marketplace'})
+        }
         return
       }
-
       this.showSignUp = true
     },
     closeSignUp () {

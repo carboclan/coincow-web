@@ -36,7 +36,7 @@ export default {
     },
     user: function (state) {
       return ({
-        username: state.farmInfo.members[this.$route.params.user]
+        username: state.farmInfo.members[this.$route.params.user].userName
       })
     }
   }),

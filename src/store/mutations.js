@@ -17,7 +17,7 @@ export default {
     state.farmInfo.owner = payload.owner
   },
   updateFarmMember (state, payload) {
-    state.farmInfo.members[payload.user] = payload.userName
+    state.farmInfo.members[payload.user] = payload
   },
   startGetCowList (state) {
     state.loadingCowList = true

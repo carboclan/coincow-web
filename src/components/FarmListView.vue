@@ -38,7 +38,11 @@ export default {
       this.showCreateFarm = false
     },
     onCreateFarm () {
-      this.showCreateFarm = true
+      if (this.user.balance > 0) {
+        this.showCreateFarm = true
+        return
+      }
+      alert('You need at least one cow to join a farm!')
     }
   }
 }

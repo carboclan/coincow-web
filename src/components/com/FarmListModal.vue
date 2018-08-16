@@ -37,8 +37,12 @@ export default {
       this.$router.push({path: '/farm'})
     },
     async onJoinFarm (farmId) {
-      console.log(farmId)
-      await contracts.farm.join(farmId)
+      if (this.user.balance > 0) {
+        console.log(farmId)
+        await contracts.farm.join(farmId)
+        return
+      }
+      alert('You need at least one cow to join a farm!')
     }
   }
 }

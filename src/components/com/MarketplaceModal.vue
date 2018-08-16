@@ -10,7 +10,8 @@
           <div>Contract Size: {{cow.contractSize | hashrate(cow.contractAddress)}}</div>
           <div>Seller: {{cow.sellerName}}</div>
         </div>
-        <button class="cow-card-button" v-on:click="onBuyCow(cow.cowId, cow.price)">Buy</button>
+        <button class="cow-card-button" v-if="cow.seller !== user.address" v-on:click="onBuyCow(cow.cowId, cow.price)">Buy</button>
+        <button class="cow-card-button" v-if="cow.seller === user.address" v-on:click="onCancelAuction(cow.cowId)">Cancel</button>
       </div>
     </div>
   </div>
@@ -29,7 +30,8 @@ export default {
     cowList: state => {
       return state.cowList.filter(cow => cow.onAuction)
     },
-    isCOO: state => state.user.isCOO
+    isCOO: state => state.user.isCOO,
+    user: state => state.user
   }),
   methods: {
     ...mapActions([
@@ -39,7 +41,11 @@ export default {
       const tx = await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
       await web3.eth.getTransactionReceipt(tx)
       this.getCows()
-      console.log(cowId)
+    },
+    async onCancelAuction (cowId) {
+      const tx = await contracts.auctionHouse.cancelAuction(cowId)
+      await web3.eth.getTransactionReceipt(tx)
+      this.getCows()
     }
   }
 }

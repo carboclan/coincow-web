@@ -3,16 +3,19 @@
   <div class="farm-menu">
     <router-link to="/marketplace" class="farm-menu-item">Marketplace</router-link>
     <router-link to="/farmlist" class="farm-menu-item">All Farms</router-link>
-    <router-link to="/farm" class="farm-menu-item">My Farm</router-link>
+    <router-link to="/farm" v-if="haveFarm" class="farm-menu-item">My Farm</router-link>
     <router-link to="/mymilk" class="farm-menu-item">My Milk</router-link>
     <router-link to="/invite" class="farm-menu-item">Share</router-link>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'MenuBar',
+  computed: mapState({
+    haveFarm: state => state.farmInfo.id > 0
+  }),
   data () {
     return {
     }

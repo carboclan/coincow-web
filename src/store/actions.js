@@ -90,16 +90,18 @@ export default {
     const farmOwner = farmInfo[0]
     commit('setFarmInfo', { id: myFarmId, name: farmName, owner: farmOwner })
     const ownerName = await contracts.userInfo.nameOf(farmOwner)
-    commit('updateFarmMember', { user: farmOwner, userName: web3.toUtf8(ownerName) })
-    const myEvent = contracts.farm.Joined({farmId: myFarmId}, {fromBlock: 0, toBlock: 'latest'})
+    commit('updateFarmMember', { user: farmOwner, userName: web3.toUtf8(ownerName), farmId: myFarmId })
+    const myEvent = contracts.farm.Joined({}, {fromBlock: 0, toBlock: 'latest'})
     myEvent.watch(async (error, result) => {
       if (!error) {
         const user = result.args.user
-        if (userAddress === user) {
+        const farmId = result.args.farmId.toNumber()
+        if (userAddress === user || farmOwner === user) {
           return
         }
         const userName = await contracts.userInfo.nameOf(user)
-        commit('updateFarmMember', { user, userName: web3.toUtf8(userName) })
+        console.log(web3.toUtf8(userName))
+        commit('updateFarmMember', { user, userName: web3.toUtf8(userName), farmId })
       }
     })
   },

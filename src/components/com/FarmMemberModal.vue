@@ -25,9 +25,12 @@ export default {
         name: state.farmInfo.name,
         members: Object.keys(state.farmInfo.members).map(member => {
           return ({
-            name: state.farmInfo.members[member],
-            user: member
+            name: state.farmInfo.members[member].userName,
+            user: member,
+            farmId: state.farmInfo.members[member].farmId,
           })
+        }).filter(member => {
+          return (member.farmId === state.farmInfo.id)
         })
       })
     }
