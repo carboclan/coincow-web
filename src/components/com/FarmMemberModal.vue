@@ -3,8 +3,8 @@
   <div class="member-list-frame">
     <button class="farm-menu-item" v-on:click="toggleList">{{farmInfo.name}}({{farmInfo.members.length}})</button>
     <div class="member-list-body" v-if="showList">
-      <div class="farm-member" v-for="member in farmInfo.members" :key="member.user">
-        {{member.name}} <router-link :to="'/userfarm/' + member.user" class="enter-button">Enter</router-link>
+      <div class="farm-member" v-for="member in farmInfo.members" :key="member.address">
+        {{member.name}} <router-link :to="'/userfarm/' + member.address" class="enter-button">Enter</router-link>
       </div>
     </div>
   </div>
@@ -20,20 +20,7 @@ export default {
     }
   },
   computed: mapState({
-    farmInfo: state => {
-      return ({
-        name: state.farmInfo.name,
-        members: Object.keys(state.farmInfo.members).map(member => {
-          return ({
-            name: state.farmInfo.members[member].userName,
-            user: member,
-            farmId: state.farmInfo.members[member].farmId,
-          })
-        }).filter(member => {
-          return (member.farmId === state.farmInfo.id)
-        })
-      })
-    }
+    farmInfo: state => state.farmInfo
   }),
   methods: {
     toggleList () {

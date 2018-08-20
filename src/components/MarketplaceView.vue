@@ -14,7 +14,7 @@ import MarketplaceModal from '@/components/com/MarketplaceModal'
 export default {
   name: 'MarketplaceView',
   created () {
-    this.getCows()
+    this.getCows(true)
   },
   components: {
     MenuBar,

@@ -15,7 +15,7 @@
         <li> Current Milk: {{cowData.milk | milk(cowData.contractAddress)}}</li>
       </ul>
       <div class="farm-modal-footer">
-        <button class="farm-button" v-on:click="onSqueeze(cowData.cowId)">Squeeze!</button>
+        <button class="farm-button" v-on:click="onSqueeze(cowData.id)">Squeeze!</button>
         <button class="farm-button" v-on:click="onSell">Sell</button>
       </div>
     </div>

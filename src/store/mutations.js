@@ -1,8 +1,4 @@
 export default {
-  pushCow (state, cow) {
-    // 设置牛
-    state.cowList.push(cow)
-  },
   setFarmList (state, farmList) {
     // 设置农场
     state.farmList = farmList
@@ -16,14 +12,15 @@ export default {
     state.farmInfo.name = payload.name
     state.farmInfo.owner = payload.owner
   },
-  updateFarmMember (state, payload) {
-    state.farmInfo.members[payload.user] = payload
+  updateFarmMembers (state, payload) {
+    state.farmInfo.members = payload
   },
   startGetCowList (state) {
     state.loadingCowList = true
     state.cowList = []
   },
-  endGetCowList (state) {
+  setCowList (state, payload) {
     state.loadingCowList = false
+    state.cowList = payload
   }
 }

@@ -9,15 +9,11 @@ import { mapActions } from 'vuex'
 export default {
   name: 'App',
   async created () {
-    this.getCows()
-    this.getFarms()
     this.getUserInfo()
     this.getFarmInfo()
   },
   methods: {
     ...mapActions([
-      'getCows',
-      'getFarms',
       'getUserInfo',
       'getFarmInfo'
     ])

@@ -1,17 +1,17 @@
 <!-- Marketplace Modal File -->
 <template>
   <div class="farm-modal">
-    <div class="farm-modal-body">
-      <div class="cow-card" v-for="cow in cowList" :key="cow.cowId">
+    <div class="farm-modal-body" v-if="user">
+      <div class="cow-card" v-for="cow in cowList" :key="cow.id">
         <div class="cow-card-img"><img :src="require('@/assets/cow_' + cow.cowType + '.png')" /></div>
         <div class="cow-detail-box">
-          <div>Type: {{cow.cowType}}</div>
+          <div>Type: {{cow.cowtype }}</div>
           <div>Price: {{cow.price}} Ether</div>
-          <div>Contract Size: {{cow.contractSize | hashrate(cow.contractAddress)}}</div>
-          <div>Seller: {{cow.sellerName}}</div>
+          <div>Contract Size: {{cow.contractSize | hashrate(cow.contractAddress) }}</div>
+          <div>Seller: {{cow.userInfo.name}}</div>
         </div>
-        <button class="cow-card-button" v-if="cow.seller !== user.address" v-on:click="onBuyCow(cow.cowId, cow.price)">Buy</button>
-        <button class="cow-card-button" v-if="cow.seller === user.address" v-on:click="onCancelAuction(cow.cowId)">Cancel</button>
+        <button class="cow-card-button" v-if="cow.userInfo.address !== user.address" v-on:click="onBuyCow(cow.id, cow.price)">Buy</button>
+        <button class="cow-card-button" v-if="cow.userInfo.address === user.address" v-on:click="onCancelAuction(cow.id)">Cancel</button>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@ export default {
   },
   computed: mapState({
     cowList: state => {
-      return state.cowList.filter(cow => cow.onAuction)
+      return state.cowList
     },
     isCOO: state => state.user.isCOO,
     user: state => state.user
@@ -40,12 +40,12 @@ export default {
     async onBuyCow (cowId, price) {
       const tx = await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
       await web3.eth.getTransactionReceipt(tx)
-      this.getCows()
+      this.getCows(true)
     },
     async onCancelAuction (cowId) {
       const tx = await contracts.auctionHouse.cancelAuction(cowId)
       await web3.eth.getTransactionReceipt(tx)
-      this.getCows()
+      this.getCows(true)
     }
   }
 }

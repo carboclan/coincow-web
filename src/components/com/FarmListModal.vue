@@ -2,15 +2,15 @@
 <template>
   <div class="farm-modal">
     <div class="farm-modal-body">
-      <div class="farm-card" v-for="farm in farmList" :key="farm.farmId">
+      <div class="farm-card" v-for="farm in farmList" :key="farm.id">
         <div class="farm-card-title">{{farm.name}}</div>
         <div class="farm-detail">
           <div>Owner: {{farm.ownerName}}</div>
-          <div>Members: {{farm.members}}</div>
+          <div>Members: {{farm.count}}</div>
         </div>
         <button class="farm-card-button" v-if="user.address === farm.owner" v-on:click="onMyFarm">Your Farm</button>
-        <button class="farm-card-button" v-else-if="farmInfo.id === farm.farmId" v-on:click="onMyFarm">Enter Farm</button>
-        <button class="farm-card-button" v-else-if="user.address != farmInfo.owner" v-on:click="onJoinFarm(farm.farmId)">Join Farm</button>
+        <button class="farm-card-button" v-else-if="farmInfo.id === farm.id" v-on:click="onMyFarm">Enter Farm</button>
+        <button class="farm-card-button" v-else-if="user.address != farmInfo.owner" v-on:click="onJoinFarm(farm.id)">Join Farm</button>
       </div>
     </div>
   </div>

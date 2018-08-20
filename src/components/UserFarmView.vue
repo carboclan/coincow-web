@@ -3,7 +3,7 @@
   <div class="farm-bg">
     <div class="farm-ft">
       <MenuBar />
-      <Cow class="cow" v-for="(cow, index) in cowList" :cowData="cow" v-on:cowclick="onCowClick(cow)" :key="cow.cowId" :style="getCowStyle(index, cowList.length)"/>
+      <Cow class="cow" v-for="(cow, index) in cowList" :cowData="cow" v-on:cowclick="onCowClick(cow)" :key="cow.id" :style="getCowStyle(index, cowList.length)"/>
       <div class="user-box">
         {{user.username}}'s Farm
       </div>
@@ -36,7 +36,7 @@ export default {
     },
     user: function (state) {
       return ({
-        username: state.farmInfo.members[this.$route.params.user].userName
+        username: state.farmInfo.members.filter(member => member.address === this.$route.params.user)[0].name
       })
     }
   }),

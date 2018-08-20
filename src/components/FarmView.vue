@@ -1,8 +1,8 @@
 <template>
   <div class="farm-bg">
-    <div class="farm-ft">
+    <div class="farm-ft" v-if="user">
       <MenuBar />
-      <Cow class="cow" v-for="(cow, index) in cowList" :cowData="cow" v-on:cowclick="onCowClick(cow)" :key="cow.cowId" :style="getCowStyle(index, cowList.length)"/>
+      <Cow class="cow" v-for="(cow, index) in cowList" :cowData="cow" v-on:cowclick="onCowClick(cow)" :key="cow.id" :style="getCowStyle(index, cowList.length)"/>
       <div class="toolbox">
         <button class="tool-item">G</button>
         <button class="tool-item">M</button>
@@ -41,7 +41,7 @@ export default {
   computed: mapState({
     cowList: state => {
       if (!state.user) {
-        alert('user not registered!')
+        return []
       }
       const _cowList = state.cowList.filter(cow => cow.owner === state.user.address)
       return _cowList
@@ -58,7 +58,7 @@ export default {
     }
   },
   async created () {
-    this.getCows()
+    this.getCows(false)
     this.getFarmInfo()
   },
   methods: {

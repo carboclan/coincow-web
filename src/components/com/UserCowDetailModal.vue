@@ -15,7 +15,7 @@
         <li> Current Milk: {{cowData.milk | milk(cowData.contractAddress)}}</li>
       </ul>
       <div class="farm-modal-footer">
-        <button class="farm-button" v-on:click="onSteal(cowData.cowId)">Steal</button>
+        <button class="farm-button" v-on:click="onSteal(cowData.id)">Steal</button>
       </div>
     </div>
   </div>

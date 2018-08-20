@@ -13,13 +13,16 @@
 import MenuBar from '@/components/com/MenuBar'
 import FarmListModal from '@/components/com/FarmListModal'
 import CreateFarmModal from '@/components/com/CreateFarmModal'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'FarmListView',
   components: {
     MenuBar,
     FarmListModal,
     CreateFarmModal
+  },
+  async created () {
+    await this.getFarms()
   },
   data () {
     return {
@@ -34,6 +37,7 @@ export default {
     user: state => state.user
   }),
   methods: {
+    ...mapActions(['getFarms']),
     onCloseCreateFarm () {
       this.showCreateFarm = false
     },
