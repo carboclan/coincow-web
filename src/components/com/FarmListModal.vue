@@ -5,7 +5,7 @@
       <div class="farm-card" v-for="farm in farmList" :key="farm.id">
         <div class="farm-card-title">{{farm.name}}</div>
         <div class="farm-detail">
-          <div>Owner: {{farm.ownerName}}</div>
+          <div>Owner: {{farm.userInfo.name}}</div>
           <div>Members: {{farm.count}}</div>
         </div>
         <button class="farm-card-button" v-if="user.address === farm.owner" v-on:click="onMyFarm">Your Farm</button>
