@@ -35,7 +35,7 @@ export default {
           address: userAddress,
           username: this.nickname
         })
-      await contracts.userInfo.register(this.nickname, '')
+      await contracts.userInfo.register(web3.fromUtf8(this.nickname), '')
       this.$emit('close')
       alert('Please buy a cow and join a farm or create a new farm first.')
       this.$router.push({path: '/marketplace'})
