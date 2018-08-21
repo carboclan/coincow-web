@@ -24,7 +24,8 @@ export default {
       cow.totalMilked = totalMilked.toNumber()
       cow.totalStolen = totalStolen.toNumber()
       cow.milk = await cowCoin.contract.milkAvailable(cow.id)
-      cow.stealThreshold = await cowCoin.contract.stealThreshold()
+      cow.stealThreshold = cowCoin.stealThreshold = cowCoin.stealThreshold || await cowCoin.contract.stealThreshold()
+      cow.milkThreshold = cowCoin.milkThreshold = cowCoin.milkThreshold || await cowCoin.contract.milkThreshold()
       cow.milkLevel = cow.milk / cow.stealThreshold > 1 ? 1 : cow.milk / cow.stealThreshold
       return cow
     })
