@@ -17,19 +17,9 @@ export default {
     MyMilkModal
   },
   data () {
-    return {
-      msg: 'MyMilk View',
-      showSignUp: false
-    }
+    return {}
   },
   methods: {
-    onStart () {
-      console.log(this.showSignUp)
-      this.showSignUp = !this.showSignUp
-    },
-    closeSignUp () {
-      this.showSignUp = false
-    }
   }
 }
 </script>

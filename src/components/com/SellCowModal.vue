@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import { web3, contracts } from '../../lib/eth'
-
+import { web3, contracts } from '@/lib/eth'
+import { sleep } from '@/lib/util'
 export default {
   name: 'SellCowModal',
   props: {
@@ -33,6 +33,7 @@ export default {
       }
       const tx = await contracts.coinCowCore.createAuction(this.cowData.id, web3.toWei(this.price, 'ether'))
       await web3.eth.getTransactionReceipt(tx)
+      await sleep(4000)
       console.log('sell')
       this.$emit('sold')
     },

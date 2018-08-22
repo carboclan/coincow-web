@@ -15,7 +15,7 @@
 
 <script>
 import { web3, contracts } from '@/lib/eth'
-
+import { sleep } from '@/lib/util'
 export default {
   name: 'SignUpModal',
   data () {
@@ -35,7 +35,9 @@ export default {
           address: userAddress,
           username: this.nickname
         })
-      await contracts.userInfo.register(web3.fromUtf8(this.nickname), '')
+      const tx = await contracts.userInfo.register(web3.fromUtf8(this.nickname), '')
+      await web3.eth.getTransactionReceipt(tx)
+      await sleep(4000)
       this.$emit('close')
       alert('Please buy a cow and join a farm or create a new farm first.')
       this.$router.push({path: '/marketplace'})

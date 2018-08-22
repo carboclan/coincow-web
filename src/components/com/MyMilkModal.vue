@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { coinMap } from '@/lib/eth'
 export default {
   name: 'MyMilkModal',
@@ -25,10 +25,14 @@ export default {
     return {
     }
   },
+  created () {
+    this.getUserInfo()
+  },
   computed: mapState({
     balances: state => state.user.balances
   }),
   methods: {
+    ...mapActions(['getUserInfo']),
     async onWithdraw (address) {
       await coinMap[address].contract.withdraw()
     }

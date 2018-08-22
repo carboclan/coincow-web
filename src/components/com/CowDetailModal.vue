@@ -24,6 +24,7 @@
 
 <script>
 import { web3 } from '@/lib/eth'
+import { sleep } from '@/lib/util'
 export default {
   name: 'CowDetailModal',
   components: {
@@ -43,6 +44,7 @@ export default {
       }
       const tx = await this.cowData.contract.milk(cowId)
       await web3.eth.getTransactionReceipt(tx)
+      await sleep(4000)
       this.$emit('squeeze')
     },
     async onSell () {

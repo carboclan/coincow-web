@@ -20,6 +20,7 @@
 <script>
 import { contracts, web3 } from '@/lib/eth'
 import { mapState, mapActions } from 'vuex'
+import { sleep } from '@/lib/util'
 export default {
   name: 'MarketplaceModal',
   data () {
@@ -40,11 +41,13 @@ export default {
     async onBuyCow (cowId, price) {
       const tx = await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
       await web3.eth.getTransactionReceipt(tx)
+      await sleep(4000)
       this.getCows(true)
     },
     async onCancelAuction (cowId) {
       const tx = await contracts.auctionHouse.cancelAuction(cowId)
       await web3.eth.getTransactionReceipt(tx)
+      await sleep(4000)
       this.getCows(true)
     }
   }
