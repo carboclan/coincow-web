@@ -36,18 +36,21 @@ export default {
   }),
   methods: {
     ...mapActions([
-      'getCows'
+      'getCows',
+      'getUserInfo'
     ]),
     async onBuyCow (cowId, price) {
       const tx = await contracts.auctionHouse.bid(cowId, { value: web3.toWei(price, 'ether') })
       await web3.eth.getTransactionReceipt(tx)
       await sleep(4000)
-      this.getCows(true)
+      await this.getCows(true)
+      this.getUserInfo()
     },
     async onCancelAuction (cowId) {
       const tx = await contracts.auctionHouse.cancelAuction(cowId)
       await web3.eth.getTransactionReceipt(tx)
       await sleep(4000)
+      this.getUserInfo()
       this.getCows(true)
     }
   }

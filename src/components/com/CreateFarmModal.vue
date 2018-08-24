@@ -15,6 +15,7 @@
 <script>
 import { web3, contracts } from '@/lib/eth'
 import { sleep } from '@/lib/util'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'CreateFarmModal',
@@ -27,11 +28,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'getFarmInfo'
+    ]),
     async onSubmit () {
       const creationFee = await contracts.farm.creationFee()
       const tx = contracts.farm.create(web3.fromUtf8(this.name), {value: creationFee})
       await web3.eth.getTransactionReceipt(tx)
       await sleep(4000)
+      await this.getFarmInfo()
       console.log('create farm')
       this.$emit('close')
     },
